@@ -1,7 +1,35 @@
 {
+  "name": "Rekod4sm DDEV Project", // Nama Codespace
   "image": "mcr.microsoft.com/devcontainers/universal:2",
   "features": {
-    "ghcr.io/ddev/ddev/install-ddev:latest": {}
+    // Tambahkan fitur PHP dan MySQL eksplisit
+    "ghcr.io/devcontainers/features/php:1": {
+      "version": "8.3" // Sesuaikan dengan versi PHP yang diinginkan DDEV (DDEV-mu PHP 8.3)
+    },
+    "ghcr.io/devcontainers/features/mysql:1": {
+      "version": "latest" // Versi MySQL terbaru
+    },
+    "ghcr.io/ddev/install-ddev-latest": {}
   },
-  "postCreateCommand": "echo 'it should all be set up'"
+  "postCreateCommand": "composer install", // Jalankan composer install sekali setelah codespace dibuat
+  "postStartCommand": "cd rekod4sm && ddev start", // INI PENTING! Otomatis start DDEV di folder rekod4sm
+  "forwardPorts": [80, 443], // Port default HTTP/HTTPS yang digunakan DDEV
+  "portsAttributes": {
+    "80": {
+      "label": "Web Server (HTTP)",
+      "onAutoForward": "notify"
+    },
+    "443": {
+      "label": "Web Server (HTTPS)",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug"
+      ]
+    }
+  }
 }
